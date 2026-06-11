@@ -1,0 +1,32 @@
+---
+const navLinks = [
+  { href: "/#agents", label: "Agents" },
+  { href: "/blog", label: "Blog" },
+];
+---
+
+<nav class="glass-nav fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3 group">
+      <div
+        class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-violet-500/30"
+      >
+        A
+      </div>
+      <span class="font-semibold text-white tracking-tight">alhabibi<span class="text-violet-400">.org</span></span>
+    </a>
+
+    <div class="flex items-center gap-8">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-sm text-slate-300 hover:text-white transition-colors font-medium"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</nav>

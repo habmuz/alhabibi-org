@@ -1,0 +1,31 @@
+---
+name: "Inbox Zero"
+tagline: "Triage, draft replies, and archive your email — on autopilot."
+description: "Inbox Zero reads your Gmail inbox, categorises threads by urgency and topic, drafts contextual replies for your approval, and archives handled messages. It never sends without confirmation."
+category: "productivity"
+status: "beta"
+icon: "📬"
+demoType: "none"
+techStack: ["Claude API", "Gmail API", "Node.js"]
+featured: true
+order: 2
+---
+
+## How It Works
+
+The agent connects to Gmail via OAuth and processes your inbox in batches:
+
+1. **Classify** — labels each thread (action-needed, FYI, newsletter, etc.)
+2. **Prioritise** — surfaces urgent threads first
+3. **Draft** — generates reply suggestions using conversation context
+4. **Confirm** — shows you a diff of proposed actions before anything is sent or archived
+
+## Safety First
+
+Inbox Zero is designed with a *human-in-the-loop* for all write operations. It reads autonomously but writes only after explicit approval. Destructive actions (archive, delete) are shown in a confirmation UI.
+
+## Current Limitations
+
+- Works with Gmail only (Outlook support planned)
+- Reply drafts sometimes miss tone nuance for long-running threads
+- Rate limits on Gmail API cause occasional delays for large inboxes

@@ -1,0 +1,48 @@
+---
+import Base from "./Base.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  tags: string[];
+}
+
+const { title, description, date, tags } = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}).format(date);
+---
+
+<Base title={`${title} — Al Habibi`} description={description}>
+  <article class="max-w-3xl mx-auto px-6 py-32">
+    <a
+      href="/blog"
+      class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-violet-400 transition-colors mb-12"
+    >
+      ← Back to Blog
+    </a>
+
+    <div class="glass p-10 fade-in-up">
+      <div class="flex flex-wrap gap-2 mb-6">
+        {
+          tags.map((tag) => (
+            <span class="text-xs px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">
+              {tag}
+            </span>
+          ))
+        }
+      </div>
+
+      <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{title}</h1>
+      <p class="text-slate-400 text-sm mb-10">{formattedDate}</p>
+
+      <div class="prose prose-invert max-w-none prose-glass">
+        <slot />
+      </div>
+    </div>
+  </article>
+</Base>

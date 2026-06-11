@@ -1,0 +1,92 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Hero from "../components/Hero.astro";
+import AgentGrid from "../components/AgentGrid";
+import BlogCard from "../components/BlogCard.astro";
+
+const allAgents = await getCollection("agents");
+const agents = allAgents
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((a) => ({
+    slug: a.id.replace(/\.mdx?$/, ""),
+    name: a.data.name,
+    tagline: a.data.tagline,
+    icon: a.data.icon,
+    category: a.data.category,
+    status: a.data.status,
+    techStack: a.data.techStack,
+  }));
+
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const latestPosts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<Base>
+  <Hero />
+
+  <!-- Agent Catalogue -->
+  <section id="agents" class="max-w-6xl mx-auto px-6 py-24">
+    <div class="text-center mb-16">
+      <span class="text-sm text-violet-400 font-medium uppercase tracking-widest">Catalogue</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mt-3 mb-4">The Agents</h2>
+      <p class="text-slate-400 max-w-xl mx-auto">
+        Each agent is built to solve a specific problem. Filter by category or explore them all.
+      </p>
+    </div>
+
+    <AgentGrid agents={agents} client:load />
+  </section>
+
+  <!-- What are AI Agents? -->
+  <section class="max-w-6xl mx-auto px-6 pb-24">
+    <div class="glass p-10 md:p-14 text-center relative overflow-hidden">
+      <div
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px"
+        style="background: linear-gradient(90deg, transparent, rgba(139,92,246,0.5), transparent);"
+      ></div>
+      <span class="text-3xl mb-6 block">🤖</span>
+      <h2 class="text-2xl md:text-3xl font-bold text-white mb-5">What are AI Agents?</h2>
+      <p class="text-slate-400 max-w-2xl mx-auto leading-relaxed mb-6">
+        AI agents are programs that perceive their environment, reason about goals,
+        and take sequences of actions — autonomously, without step-by-step human instruction.
+        They combine large language models with tools, memory, and planning to handle complex,
+        multi-step tasks end to end.
+      </p>
+      <p class="text-slate-500 text-sm max-w-xl mx-auto">
+        This site documents my journey exploring what's possible when you give language models
+        the ability to act. Every agent here is a real experiment — some polished, some raw.
+      </p>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  {
+    latestPosts.length > 0 && (
+      <section class="max-w-6xl mx-auto px-6 pb-24">
+        <div class="flex items-end justify-between mb-10">
+          <div>
+            <span class="text-sm text-violet-400 font-medium uppercase tracking-widest">Journal</span>
+            <h2 class="text-2xl font-bold text-white mt-2">Latest from the Blog</h2>
+          </div>
+          <a href="/blog" class="text-sm text-slate-400 hover:text-violet-400 transition-colors">
+            All posts →
+          </a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {latestPosts.map((post) => (
+            <BlogCard
+              slug={post.id.replace(/\.mdx?$/, "")}
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              tags={post.data.tags}
+            />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</Base>

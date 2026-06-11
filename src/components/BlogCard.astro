@@ -1,0 +1,40 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  date: Date;
+  tags: string[];
+}
+
+const { slug, title, description, date, tags } = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+}).format(date);
+---
+
+<a
+  href={`/blog/${slug}`}
+  class="glass glass-hover block p-6 group"
+  style="transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;"
+  onmouseover="this.style.transform='translateY(-4px)'"
+  onmouseout="this.style.transform='translateY(0)'"
+>
+  <div class="flex flex-wrap gap-2 mb-4">
+    {
+      tags.slice(0, 3).map((tag) => (
+        <span class="text-xs px-2.5 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/25">
+          {tag}
+        </span>
+      ))
+    }
+  </div>
+  <h3 class="text-base font-semibold text-white mb-2 group-hover:text-violet-300 transition-colors leading-snug">
+    {title}
+  </h3>
+  <p class="text-sm text-slate-400 leading-relaxed mb-5 line-clamp-2">{description}</p>
+  <span class="text-xs text-slate-500">{formattedDate}</span>
+</a>

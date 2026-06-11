@@ -1,0 +1,31 @@
+---
+name: "Story Weaver"
+tagline: "Co-write interactive stories with branching plot lines and persistent characters."
+description: "Story Weaver is a creative writing companion that maintains a persistent story world, remembers character backstories, tracks plot threads, and suggests branching narrative paths. Great for world-building and collaborative fiction."
+category: "creative"
+status: "coming-soon"
+icon: "📖"
+demoType: "none"
+techStack: ["Claude API", "SQLite", "Python"]
+featured: false
+order: 3
+---
+
+## Concept
+
+Story Weaver addresses one of the core challenges of AI creative writing: **narrative coherence across long sessions**. Most LLMs forget plot details after a few thousand tokens. Story Weaver maintains a structured story bible:
+
+- Character profiles (traits, motivations, relationships)
+- Timeline of events
+- Unresolved plot threads
+- World rules and lore
+
+## Planned Features
+
+- **Branching paths** — the agent proposes 2–3 narrative directions at key story moments
+- **Consistency checks** — flags contradictions against the story bible before generating new scenes
+- **Export** — renders the full story as a formatted PDF or ebook
+
+## Status
+
+Currently designing the memory schema. The tricky bit is deciding what's worth persisting vs. what the LLM can derive from context on demand.

@@ -1,0 +1,43 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import BlogCard from "../../components/BlogCard.astro";
+
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+---
+
+<Base title="Blog — Al Habibi" description="Notes on building AI agents — discoveries, experiments, and lessons learned.">
+  <div class="max-w-6xl mx-auto px-6 py-32">
+    <div class="text-center mb-16">
+      <span class="text-sm text-violet-400 font-medium uppercase tracking-widest">Journal</span>
+      <h1 class="text-4xl font-bold text-white mt-3 mb-4">The Blog</h1>
+      <p class="text-slate-400 max-w-xl mx-auto">
+        Notes, experiments, and discoveries from building AI agents as a hobby.
+      </p>
+    </div>
+
+    {
+      posts.length === 0 ? (
+        <div class="glass p-16 text-center">
+          <p class="text-2xl mb-3">✍️</p>
+          <p class="text-slate-400">First post coming soon…</p>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((post) => (
+            <BlogCard
+              slug={post.id.replace(/\.mdx?$/, "")}
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              tags={post.data.tags}
+            />
+          ))}
+        </div>
+      )
+    }
+  </div>
+</Base>

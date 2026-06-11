@@ -1,0 +1,33 @@
+---
+name: "Research Scout"
+tagline: "Searches the web, summarises findings, and cites sources automatically."
+description: "Research Scout takes a question or topic and autonomously browses the web, extracts relevant information, cross-references sources, and returns a structured summary with citations. Built on a ReAct loop with web-search tooling."
+category: "research"
+status: "active"
+icon: "🔍"
+demoType: "none"
+techStack: ["Claude API", "Tavily", "Python"]
+featured: true
+order: 1
+---
+
+## How It Works
+
+Research Scout runs a **ReAct (Reason + Act)** loop:
+
+1. Reformulates your query into optimised search terms
+2. Calls the Tavily search API to retrieve top results
+3. Reads and chunks page content
+4. Reasons over chunks to extract relevant facts
+5. Synthesises a structured answer with inline citations
+
+## Capabilities
+
+- Multi-turn research sessions
+- Source deduplication and ranking
+- Markdown-formatted output with numbered references
+- Handles ambiguous or broad queries by clarifying sub-topics
+
+## What I Learned
+
+Getting the agent to *stop searching* at the right time was the hardest part. Without a termination condition grounded in information sufficiency, it would loop endlessly chasing edge-case details.

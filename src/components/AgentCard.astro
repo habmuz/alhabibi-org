@@ -1,0 +1,64 @@
+---
+interface Props {
+  slug: string;
+  name: string;
+  tagline: string;
+  icon: string;
+  category: string;
+  status: "active" | "beta" | "coming-soon";
+  techStack: string[];
+}
+
+const { slug, name, tagline, icon, category, status, techStack } = Astro.props;
+
+const statusConfig = {
+  active: { label: "Active", class: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30" },
+  beta: { label: "Beta", class: "bg-amber-500/20 text-amber-300 border-amber-500/30" },
+  "coming-soon": { label: "Coming Soon", class: "bg-slate-500/20 text-slate-400 border-slate-500/30" },
+};
+
+const categoryConfig: Record<string, string> = {
+  productivity: "bg-blue-500/15 text-blue-300",
+  creative: "bg-pink-500/15 text-pink-300",
+  research: "bg-teal-500/15 text-teal-300",
+  utility: "bg-orange-500/15 text-orange-300",
+};
+
+const sc = statusConfig[status];
+---
+
+<a
+  href={`/agents/${slug}`}
+  class="glass glass-hover block p-6 group cursor-pointer"
+  style="transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;"
+  onmouseover="this.style.transform='translateY(-6px) scale(1.01)'"
+  onmouseout="this.style.transform='translateY(0) scale(1)'"
+>
+  <!-- Header -->
+  <div class="flex items-start justify-between mb-4">
+    <div class="text-4xl">{icon}</div>
+    <span class={`text-xs px-2.5 py-1 rounded-full border font-medium ${sc.class}`}>
+      {sc.label}
+    </span>
+  </div>
+
+  <!-- Name & tagline -->
+  <h3 class="text-lg font-semibold text-white mb-1 group-hover:text-violet-300 transition-colors">
+    {name}
+  </h3>
+  <p class="text-sm text-slate-400 leading-relaxed mb-5">{tagline}</p>
+
+  <!-- Footer -->
+  <div class="flex items-center justify-between">
+    <span class={`text-xs px-2.5 py-1 rounded-md capitalize font-medium ${categoryConfig[category]}`}>
+      {category}
+    </span>
+    <div class="flex gap-1">
+      {techStack.slice(0, 3).map((tech) => (
+        <span class="text-xs px-2 py-0.5 rounded bg-white/5 text-slate-400 border border-white/8">
+          {tech}
+        </span>
+      ))}
+    </div>
+  </div>
+</a>

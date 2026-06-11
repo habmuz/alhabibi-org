@@ -1,0 +1,39 @@
+---
+title: "The ReAct Loop: How Agents Actually Think"
+date: 2026-06-08
+tags: ["architecture", "react", "deep-dive"]
+description: "ReAct is the backbone of most production-grade agents. Here's what it is, how it works, and where it breaks down."
+draft: false
+---
+
+If you want to understand how AI agents work under the hood, you need to understand **ReAct**.
+
+ReAct (Reason + Act) is a pattern where the model alternates between two types of output:
+
+1. **Thought** — the model reasons in natural language about what it knows and what it needs to do next
+2. **Action** — the model calls a tool (search, calculator, API, etc.) and observes the result
+
+Then it loops — using the observation to inform the next thought, which leads to the next action, until it has enough information to give a final answer.
+
+## A Concrete Example
+
+```
+Thought: The user asked for the population of Dubai in 2024. I should search for this.
+Action: search("Dubai population 2024")
+Observation: Dubai's population reached approximately 3.6 million in 2024...
+
+Thought: I have the answer. No more tools needed.
+Final Answer: Dubai's population in 2024 was approximately 3.6 million.
+```
+
+## Why It Works
+
+The key insight is that reasoning in natural language before acting is enormously powerful. The model can plan, backtrack, and course-correct mid-task in a way that pure input→output pipelines can't.
+
+## Where It Breaks
+
+- **Loop termination** — without a good stopping criterion, agents loop endlessly
+- **Tool hallucination** — models sometimes call tools that don't exist or pass malformed arguments
+- **Context overflow** — long chains of observations can exhaust the context window
+
+My Research Scout agent hit all three of these. Each fix taught me more than any paper I've read.
